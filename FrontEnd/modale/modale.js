@@ -1,5 +1,7 @@
 let modal = null
+
 // ouverture de la modal //
+
 const ouvrirModal = function (e) {
     e.preventDefault ()
     const target = document.querySelector(e.target.getAttribute('href'))
@@ -11,7 +13,9 @@ const ouvrirModal = function (e) {
     modal.querySelector (".js-modal-close").addEventListener ("click", closeModal)
     modal.querySelector (".js-modal-stop").addEventListener ("click", stopPropagation)
 };
+
 // fermeture de la modal //
+
 const closeModal = function (e) {
     e.preventDefault ()
     if (modal === null) return
@@ -35,59 +39,69 @@ document.querySelectorAll(".js-modal").forEach(a => {
 
 
 // generation des photos dans la modal //
-const url = fetch ("http://localhost:5678/api/works")
+
+fetch ("http://localhost:5678/api/works")
     .then (works => works.json())
     .then (data => {
 
-     async function genererWorks (data) {
- 
-        for (let i=0; i<data.length; i++){
-           
+function genererGalleryModal (data) {
+    
+            for (let i=0; i<data.length; i++) {
+        
             const works = document.querySelector (".gallery-modal");
-            const projet = data[i];
+            
             const projetElements = document.createElement ("figure");
+            
             const image = document.createElement ("img");
-            image.src = `${projet.imageUrl}`;
+            image.src = `${data[i].imageUrl}`;
+   
             const editer = document.createElement ("p");
             editer.innerText = "editer";
+
             const boutonDelete = document.createElement ("i");
-            boutonDelete.className = ("fa-regular fa-trash-can");
-        
+            boutonDelete.className = ("fa-regular fa-trash-can supprimer");
+            boutonDelete.id = data[i].id;
+            
+      
             projetElements.appendChild(image); 
             projetElements.appendChild (editer);
             projetElements.appendChild (boutonDelete);      
             works.appendChild(projetElements);
+
+            boutonDelete.addEventListener ("click", deleteItem)
+
         
+    function deleteItem () {
+
+                const token = localStorage.getItem ("token");
+                console.log (token)
+
+            fetch ("http://localhost:5678/api/works/{id}", {
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}`,
+                            "Content-type": "application/json"
+                        }
+            })
         
+            .then ((reponse) => {
 
+                if (reponse.ok === true) {
+                    projetElements.remove ()
+                    alert ("l'élément a bien été supprimé")
+                   
+                } else {
+                    alert ("une erreur est survenue")}
+            
+            }) 
+            .catch (error => console.log (error))
+        }
+       
+            }
+            
+            console.log(data)
+    }      
 
-            boutonDelete.addEventListener ("click", deleteElement, genererWorks)
-    const token = localStorage.getItem("token")
-   
+    document.querySelector(".gallery-modal").innerHTML ="";
+    genererGalleryModal (data)
 
-    
-    
-    async function deleteElement () {
-    await fetch ("http://localhost:5678/api/works/`${id}`", {
-        method: "DELETE",
-        headers: {  accept: "*/*",
-                    Authorization: `Bearer ${token}` }
-    })
-    .then ((reponse) => {
-        if (reponse.ok === true) {
-            projetElements.remove()
-            alert ("l'élément a bien été supprimé")
-           
-        }else{alert ("une erreur est survenue")}
-    
-    }) 
-    .catch (error => console.log (error))
-        }}}
-document.querySelector(".gallery-modal").innerHTML ="";
-genererWorks (data)
-console.log (data)
 })
-
-
-
-

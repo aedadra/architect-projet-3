@@ -1,39 +1,73 @@
 // on empeche le rechargement de la page au bouton submit //
-const connexion = document.getElementById("connexion");
-connexion.addEventListener ("submit", function (e){
+const connexion = document.getElementById("connexion").addEventListener ("submit", function (e){
     e.preventDefault()
-
+    authentification ()
 
 async function authentification () {
+
 // recuperation des champs du formulaire //   
     let utilisateur = {
         email: document.getElementById("email").value,
         password: document.getElementById("password").value
     }
-  
+ 
 
     console.log (utilisateur)
- // appel de l'api // 
-   const verify = await fetch ("http://localhost:5678/api/users/login", {
+ 
+    // appel de l'api // 
+ 
+   fetch ("http://localhost:5678/api/users/login", {
     method: "POST",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify (
    utilisateur
     )
 })
-// stockage du token et redirection vers la page des projets //
-if (verify.ok === true) {
-    let data = await verify.json ();
-    console.log (data);
-    localStorage.setItem ('token', data.token);
-    window.location.href = "../index.html";
-// gestion des erreurs //    
-}  else {
-alert  (`email ou mot de passe incorrect`)
-}} 
-// appel de la fonction //
- authentification ()
 
-}); 
+    
+
+
+// stockage du token et redirection vers la page des projets //
+.then ((response) => response.json ())
+     
+
+.then (data => { console.log(data),
+
+
+console.log (localStorage)
+if (utilisateur.email === "") {
+
+    alert ("veuillez entrer votre Email")
+
+} else if (utilisateur.password === "") {
+    
+    alert ("veuillez entrer le mot de passe")
+
+} else if (data.token === undefined) {
+
+    alert ("email ou mot de passe incorrect")
+
+} else {
+
+    window.location.href = "../index.html"
+    localStorage.setItem("token", data.token)
+}
+});
+}
+});
+
+
+
+
+
+
+
+
+
+      
+
+
+
+    
 
 
