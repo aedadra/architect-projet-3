@@ -83,4 +83,20 @@ genererWorks (tousFiltres)
 
 })
 
+if (localStorage.length === 0) {
+  document.querySelector(".barre-modal").style.display = "none";
+  document.querySelector (".logout").style.display = "none";
+  document.querySelector (".bouton-modifier").style.display = "none";
+  
+}else{
+  document.querySelector (".login").style.display = "none";
+  document.querySelector (".button-bar").style.display = "none";
+}
+
+document.querySelector(".logout").addEventListener("click", logout)
+function logout () {
+localStorage.removeItem("token")
+window.location.href = "./index.html"
+}
+
 

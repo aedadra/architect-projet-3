@@ -37,15 +37,19 @@ async function authentification () {
 console.log (localStorage)
 if (utilisateur.email === "") {
 
+    document.getElementById("connexion").reset()
     alert ("veuillez entrer votre Email")
+    
 
 } else if (utilisateur.password === "") {
     
     alert ("veuillez entrer le mot de passe")
+    document.getElementById("connexion").reset ()
 
 } else if (data.token === undefined) {
 
     alert ("email ou mot de passe incorrect")
+    document.getElementById("connexion").reset ()
 
 } else {
 
