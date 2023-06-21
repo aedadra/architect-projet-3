@@ -22,7 +22,8 @@ const url = fetch ("http://localhost:5678/api/works")
             projet.appendChild(image);
             projet.appendChild(titre);
             works.appendChild(projet);
-    }};
+    }
+  }
 
 document.querySelector(".gallery").innerHTML ="";
 genererWorks (data);
@@ -83,7 +84,7 @@ genererWorks (tousFiltres)
 
 })
 
-if (localStorage.length === 0) {
+if (sessionStorage.length === 0) {
   document.querySelector(".barre-modal").style.display = "none";
   document.querySelector (".logout").style.display = "none";
   document.querySelector (".bouton-modifier").style.display = "none";
@@ -95,8 +96,13 @@ if (localStorage.length === 0) {
 
 document.querySelector(".logout").addEventListener("click", logout)
 function logout () {
-localStorage.removeItem("token")
+  if (confirm("vous allez vous déconnecter") == true) {
+sessionStorage.removeItem("token")
 window.location.href = "./index.html"
-}
+}}
+
+
+
+
 
 

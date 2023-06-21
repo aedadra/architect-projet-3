@@ -23,15 +23,45 @@
 	</div>
 
 <aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-modal="false" style ="display:none;">
-   <div class="wrapper js-modal-stop" >
+   <div class="wrapper js-modal-stop">
     <button class="js-modal-close">X</button>
-		<h1>Galerie photo</h1>
+		<div class="modal-editor">
+			<h1>Galerie photo</h1>
 			<div class="gallery-modal">
 			</div>
-			<button>ajouter une photo</button>
+			<button id="ajout-de-photo"> ajouter une photo </button>
+			
 			<p>Supprimer la galerie</p>
+		</div>
+	
+	
+	<div class="ajout-de-projet" style="display: none;">
+		<button id="previous">previous</button>
+
+	 <h1>Ajout photo</h1>
+ 
+		 <form enctype="multipart/form-data" id="form" name="ajout">
+			 <input name="image" type="file" id="image" accept="image/*" value="+Ajouter photo" required>
+			 <label for="titre">Titre</label>
+			 <input name="title" type="text" id="title" required>
+			 <label for="categorie">Catégorie</label>
+			 <select name="category" id="category" required>
+				 <option></option>
+				 <option value="1">Objets</option>
+				 <option value="2">Appartements</option>
+				 <option value="3">Hôtels et restaurants</option>
+			 </select>
+			 <input type="submit"> 
+		 </form>
+   
+		 
 	</div>
+</div>
 </aside>
+
+
+
+
 
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
@@ -64,10 +94,14 @@
 	<section id="portfolio">
 		<div class="mes-projets">
 			<h2>Mes Projets</h2>
+			
 				<div class="bouton-modifier">
+					<a href="#modal1" class="js-modal">
 					<i class="fa-solid fa-pen-to-square"></i>
-					<p>modifier</p>
+					modifier</a>
+					
 				</div>
+			
 		</div>
 			<div class = button-bar>
 				<button class="tous">Tous</button>
@@ -101,6 +135,7 @@
 		</ul>
 	</nav>
 </footer>
+<script src="./ajoutDePhoto/ajoutDePhoto.js"></script>
 <script src="architect.js"></script>
 <script src="./modale/modale.js"></script>
 </body>
