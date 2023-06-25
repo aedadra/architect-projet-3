@@ -22,7 +22,7 @@ const connexion = document.getElementById("connexion").addEventListener ("submit
     method: "POST",
     headers: {"Content-type": "application/json"},
     body: JSON.stringify (
-   utilisateur
+    utilisateur
     )
 })
 

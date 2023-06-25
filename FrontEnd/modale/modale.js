@@ -1,3 +1,5 @@
+// creation et gestion de modal //
+
 let modal = null
 
 // ouverture de la modal //
@@ -26,6 +28,11 @@ const closeModal = function (e) {
     modal.querySelector (".js-modal-close").removeEventListener ("click", closeModal)
     modal.querySelector (".js-modal-stop").removeEventListener ("click", stopPropagation)
     modal = null
+    {
+      document.querySelector(".gallery").innerHTML=""
+      genererProjets ()
+    }
+    setImage()
 };
 
 const stopPropagation = function (e) {
@@ -37,30 +44,49 @@ document.querySelectorAll(".js-modal").forEach(a => {
     a.addEventListener ("click", ouvrirModal)
 });
 
+// pointer les boutons et les galleries de la modal //
+
+const editor = document.querySelector(".modal-editor");
+const ajouter = document.querySelector(".ajout-de-projet");
+const previousButton = document.querySelector(".previous");
+
+// generation de la page d'ajout de photo //
+
 const ajoutDeProjet = document.getElementById("ajout-de-photo").addEventListener("click", photoAjout)
 function photoAjout (e) {
     e.preventDefault ()
-    const editor = document.querySelector(".modal-editor")
+    
     editor.style.display = "none"
-    const ajouter = document.querySelector(".ajout-de-projet")
     ajouter.style.display = "block"
-}
+    previousButton.style.visibility = "visible"
+};
 
-const previous = document.getElementById("previous").addEventListener("click", pagePrecedante)
+// retour sur la gallerie de la modal //
+
+const previous = document.querySelector(".previous").addEventListener("click", pagePrecedante)
 function pagePrecedante (e) {
     e.preventDefault ()
-    const editor = document.querySelector(".modal-editor")
+    setImage()
     editor.style.display = "block"
-    const ajouter = document.querySelector(".ajout-de-projet")
-    ajouter.style.display = "none"
-}
+    ajouter.style.display = "none";
+    previousButton.style.visibility = "hidden"
+   
+    {
+        document.querySelector(".gallery-modal").innerHTML=""
+        genererModal ()
+    }
+};
 
 
 // generation des photos dans la modal //
+
 function genererModal () {
     fetch ("http://localhost:5678/api/works")
         .then (works => works.json())
         .then (data => {            
+            
+            
+            
 
             for (let i=0; i<data.length; i++) {
             
@@ -68,25 +94,33 @@ function genererModal () {
             
             const projetElements = document.createElement ("figure");          
             projetElements.id = `${data[i].id}`
+            projetElements.className = ("figure-modal");
 
-        
             const image = document.createElement ("img");
             image.src = `${data[i].imageUrl}`;
             image.id = `${data[i].id}`
-       
+
             const editer = document.createElement ("p");
             editer.innerText = "editer";
 
+            const emplacementBoutonDelete = document.createElement ("figcaption");
+            
+            const fleche = document.createElement ("i")
+            fleche.className = ("fa-solid fa-arrows-up-down-left-right deplacer")
+
             const boutonDelete = document.createElement ("i");
             boutonDelete.className = ("fa-regular fa-trash-can supprimer");
-            boutonDelete.id = image.id
+            boutonDelete.id = image.id;
             
-            
+            emplacementBoutonDelete.appendChild(fleche);
+            emplacementBoutonDelete.appendChild (boutonDelete);
+          
             projetElements.appendChild(image); 
             projetElements.appendChild (editer);
-            projetElements.appendChild (boutonDelete);      
+            projetElements.appendChild(emplacementBoutonDelete);      
+            
             works.appendChild(projetElements);
-
+            
             boutonDelete.addEventListener ("click", deleteItem)
           
 // fonction supprimer un projet //
@@ -97,7 +131,7 @@ function genererModal () {
 
                 if (confirm ("souhaitez vous vraiment supprimer l'élément ?") == true) {
                     const token = sessionStorage.getItem ("token");
-                    const id = data[i].id
+                    const id = data[i].id;
                     e.preventDefault ()
 
 // appel de l'api //
@@ -111,11 +145,14 @@ function genererModal () {
                     .then ((reponse) => {
         
                         if (reponse.ok === true) {
-                            e.target.parentNode.remove ()
+                            
+                            projetElements.remove ()
                             alert ("l'élément a bien été supprimé")
                
                         } else {
-                         alert ("une erreur est survenue")
+                         
+                            alert ("une erreur est survenue")
+                        
                         }
                     })
                 }       
@@ -124,3 +161,4 @@ function genererModal () {
     })
 }
 genererModal ()       
+

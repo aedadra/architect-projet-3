@@ -1,10 +1,13 @@
+function genererProjets () {
+
 // appel de l'api //
-const url = fetch ("http://localhost:5678/api/works")
+fetch ("http://localhost:5678/api/works")
     .then (works => works.json())
     .then (data => {
-      
+
 // generation des projets par l'api //
-      function genererWorks (data) {
+
+    function genererWorks (data) {
  
         for (let i=0; i<data.length; i++){
 
@@ -24,6 +27,7 @@ const url = fetch ("http://localhost:5678/api/works")
             works.appendChild(projet);
     }
   }
+
 
 document.querySelector(".gallery").innerHTML ="";
 genererWorks (data);
@@ -83,15 +87,19 @@ genererWorks (tousFiltres)
 });
 
 })
+}
+genererProjets ()
 
 if (sessionStorage.length === 0) {
   document.querySelector(".barre-modal").style.display = "none";
   document.querySelector (".logout").style.display = "none";
   document.querySelector (".bouton-modifier").style.display = "none";
+  document.querySelector (".bouton-modifier-intro").style.display = "none";
+  document.querySelector (".bouton-modifier-intro2").style.display = "none";
   
-}else{
-  document.querySelector (".login").style.display = "none";
-  document.querySelector (".button-bar").style.display = "none";
+} else {
+  document.querySelector (".login-button").style.display = "none";
+  document.querySelector (".button-bar").style.visibility = "hidden";
 }
 
 document.querySelector(".logout").addEventListener("click", logout)
