@@ -2,7 +2,7 @@
 const connexion = document.getElementById("connexion").addEventListener ("submit", function (e){
     e.preventDefault()
     authentification ()
-})
+});
 
 
  function authentification () {
@@ -11,7 +11,7 @@ const connexion = document.getElementById("connexion").addEventListener ("submit
     let utilisateur = {
         email: document.getElementById("email").value,
         password: document.getElementById("password").value
-    }
+    };
 
 
     console.log (utilisateur)

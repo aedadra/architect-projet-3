@@ -53,12 +53,13 @@ function ajoutWorks () {
                     setImage ()
                }
             })
-
     }
 
     
 // gestion aperçu de l'image //
+
 getImage ()
+
     function getImage () {
         document.querySelector(".image").addEventListener("change", function(e){
             
@@ -78,6 +79,36 @@ getImage ()
         document.querySelector (".preview-img img").setAttribute("src", "#")
     }
 
+// fonction pour changer la couleur du bouton valider //
+
+const image = document.querySelector ("#image")
+const title = document.querySelector ("#title")
+const category = document.querySelector ("#category")
+const addValidate = document.querySelector (".add-validate")
     
+    function updateValidationButton() {
+
+        if (
+        
+            image.files.length > 0 && // Si le compteur de photos est a 0
+            title.value !== "" && // Et les valeurs des input title et category ne sont pas vides
+            category.value !== ""
+        
+        ) {
+        
+            addValidate.classList.add("color-change"); // Alors la class "true" est ajoutée au bouton
+    
+        } else {
+            
+            addValidate.classList.remove("color-change");
+        
+        }
+    }
+
+// On ecoute les événements de modification des champs et on appel la fonction //
+
+image.addEventListener("input", updateValidationButton);
+title.addEventListener("input", updateValidationButton);
+category.addEventListener("input", updateValidationButton);
 
     

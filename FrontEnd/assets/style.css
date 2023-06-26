@@ -342,6 +342,11 @@ h2{
     padding-right: 70px;
     width: auto;
 	border-radius: 60px ;
+	background-color: #A7A7A7;
+}
+
+.color-change {
+	background-color: #1D6154;
 }
 
 /** Header **/
